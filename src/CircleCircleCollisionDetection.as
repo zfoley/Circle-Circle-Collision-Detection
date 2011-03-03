@@ -73,7 +73,12 @@ package
 				separationVector.x = distanceX;
 				separationVector.y = distanceY;
 				//scale the vector length to be the sum of the two ball radii
-				separationVector.scaleBy((movingBall.radius + stationaryBall.radius) / separationVector.length);				
+				
+				if (separationVector.length > 0) {
+					//Protect the operation from a divide by zero error when separationVector.length is zero.
+					var scaleFactor:Number = (movingBall.radius + stationaryBall.radius) / separationVector.length;
+					separationVector.scaleBy(scaleFactor);				
+				}
 				// position the moving ball at the separation vector and offset the vector by the stationary ball's position
 				movingBall.x = separationVector.x +stationaryBall.x;
 				movingBall.y = separationVector.y +stationaryBall.y;
